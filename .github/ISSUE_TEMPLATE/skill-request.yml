@@ -1,0 +1,29 @@
+name: Proponer una nueva skill
+description: Sugiere una skill útil para Chile
+title: "[skill] "
+labels: ["skill-request"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema que debería resolver
+      description: Explica el caso chileno concreto.
+    validations:
+      required: true
+  - type: textarea
+    id: users
+    attributes:
+      label: Quién la usaría
+      description: Pyme, desarrollador, contador, abogado, ciudadano, equipo público, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Fuentes sugeridas
+      description: Leyes, sitios oficiales, documentación, repos o material útil.
+  - type: textarea
+    id: examples
+    attributes:
+      label: Ejemplos de preguntas o tareas
+      description: Incluye 2 o 3 ejemplos concretos.
