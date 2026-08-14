@@ -1,86 +1,138 @@
-# Skills Chile 🇨🇱
+<p align="center">
+  <img src="assets/skills-chile-hero.svg" alt="Skills Chile" width="100%" />
+</p>
+
+<h1 align="center">Skills Chile 🇨🇱</h1>
 
 <p align="center">
-  <img src="assets/skills-chile-hero.svg" alt="Skills Chile hero" width="100%" />
+  <strong>Skills abiertas, reutilizables y enfocadas en problemas, normas y procesos reales de Chile.</strong>
 </p>
 
 <p align="center">
-  <strong>Repositorio de skills prácticas para Chile</strong><br>
-  Skills listas para usar en GPT, Claude y otros asistentes con foco legal, operativo y documental.
-</p>
-
-<p align="center">
-  <img alt="estado" src="https://img.shields.io/badge/estado-en%20construcci%C3%B3n-0a66c2">
-  <img alt="skills" src="https://img.shields.io/badge/skills-1-0f766e">
-  <img alt="pais" src="https://img.shields.io/badge/foco-Chile-dc2626">
+  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-1%20disponible-0f766e"></a>
+  <img alt="foco" src="https://img.shields.io/badge/foco-Chile-dc2626">
+  <img alt="formato" src="https://img.shields.io/badge/formato-SKILL.md-2563eb">
   <img alt="licencia" src="https://img.shields.io/badge/licencia-MIT-111827">
 </p>
 
 ---
 
-## Qué es este repo
+## Una biblioteca de skills para Chile
 
-**Skills Chile** nace para reunir skills especializadas en problemáticas, normas, procesos y flujos reales de **Chile**.
+**Skills Chile** parte con una idea concreta: tomar conocimiento chileno que normalmente está repartido entre leyes, documentación, procesos y experiencia práctica, y convertirlo en **skills que una IA pueda ejecutar de forma consistente**.
 
-La idea es simple:
+Este repositorio comienza con **una sola skill**, pero está diseñado desde el día uno para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
 
-- partir con una primera skill sólida;
-- documentarla bien;
-- hacerla fácil de reutilizar;
-- e ir agregando más skills chilenas con el tiempo.
+<p align="center">
+  <img src="assets/skill-system.svg" alt="Cómo funciona una skill en Skills Chile" width="100%" />
+</p>
 
-> **Primera skill del repositorio:** `proteccion-datos-chile`
+## Primera skill disponible
+
+<table>
+<tr>
+<td width="32%"><strong>proteccion-datos-chile</strong></td>
+<td>Privacidad · Legal · GRC · Seguridad · IA</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td>Disponible</td>
+</tr>
+<tr>
+<td><strong>Última verificación</strong></td>
+<td>14-AGO-2026</td>
+</tr>
+<tr>
+<td><strong>Nueva ley</strong></td>
+<td><strong>entra en vigencia el 01-DIC-2026</strong></td>
+</tr>
+</table>
+
+La primera skill cubre la **Ley 19.628** y la transición a la **Ley 21.719**, que regula la protección y tratamiento de datos personales y crea la Agencia de Protección de Datos Personales.
+
+> **Regla temporal esencial:** hasta el **30-NOV-2026** sigue siendo exigible el régimen vigente de la Ley 19.628; desde el **01-DIC-2026** entra en vigor el nuevo régimen de la Ley 21.719.
+
+La fecha está verificada contra **LeyChile / Biblioteca del Congreso Nacional**. La Ley 21.719 fue publicada el **13-DIC-2024** y su texto tiene vigencia diferida al **01-DIC-2026**.
+
+### Qué puede hacer
+
+- analizar políticas y avisos de privacidad;
+- ejecutar gap analysis de cumplimiento;
+- revisar software, APIs, bases de datos y arquitectura;
+- evaluar consentimiento y bases de licitud;
+- revisar derechos de titulares y sus plazos;
+- analizar incidentes y seguridad;
+- detectar cuándo corresponde una DPIA;
+- revisar encargados, cesiones y transferencias internacionales;
+- analizar biometría, NNA, perfilamiento y decisiones automatizadas;
+- separar **obligación legal**, **control recomendado** y **evidencia real**.
+
+**Abrir la skill →** [`skills/proteccion-datos-chile/SKILL.md`](skills/proteccion-datos-chile/SKILL.md)
+
+<details>
+<summary><strong>¿Por qué no copiamos GDPR y listo?</strong></summary>
+
+Porque una buena skill chilena parte de la norma chilena. GDPR, ISO, NIST y otros marcos pueden aportar controles, pero no deben convertirse automáticamente en obligaciones locales.
+
+La primera skill incorpora guardrails específicos. Por ejemplo, no transforma automáticamente el deber chileno de reportar determinadas vulneraciones **sin dilaciones indebidas** en una regla general de 72 horas sólo porque ese número sea conocido en GDPR.
+
+</details>
 
 ---
 
-## Primera skill: Protección de Datos Chile
+## Instalarla en menos de 5 minutos
 
-La primera skill está enfocada en la **Ley 19.628** y en la reforma introducida por la **Ley 21.719**, que **entra en vigencia el 1 de diciembre de 2026** según la Biblioteca del Congreso Nacional / LeyChile.
+### ChatGPT
 
-Esta skill ayuda a:
+No necesitas programar. Puedes usarla dentro de un **Proyecto** o un **GPT personalizado**:
 
-- analizar cumplimiento legal y operativo;
-- revisar políticas de privacidad;
-- evaluar software, arquitectura, APIs y bases de datos;
-- revisar encargados, transferencias internacionales e incidentes;
-- distinguir entre **obligación legal**, **control recomendado** y **evidencia real**.
+1. copia `SKILL.md` a las instrucciones;
+2. agrega `references/` como archivos de conocimiento;
+3. prueba una consulta real.
 
-### Lo más importante
+**Guía paso a paso →** [`docs/guides/agregar-skill-en-gpt.md`](docs/guides/agregar-skill-en-gpt.md)
 
-- **Hasta el 30 de noviembre de 2026**: la ley exigible sigue siendo la **Ley 19.628** vigente.
-- **Desde el 1 de diciembre de 2026**: comienza a aplicar el nuevo régimen de la **Ley 21.719**.
-- La skill evita errores comunes, como copiar reglas del GDPR automáticamente cuando no corresponden en Chile.
+### Claude
 
-📌 Skill principal: [`skills/proteccion-datos-chile/SKILL.md`](skills/proteccion-datos-chile/SKILL.md)
+En **Claude Code** el formato es nativo. Para una skill de proyecto:
 
----
+```bash
+mkdir -p .claude/skills/proteccion-datos-chile
+cp -R skills/proteccion-datos-chile/* .claude/skills/proteccion-datos-chile/
+```
 
-## Roadmap
+También puedes usarla como skill personal en `~/.claude/skills/` o cargarla como instrucciones/conocimiento de un Proyecto en claude.ai.
 
-Este repo parte con una sola skill, pero está pensado para crecer.
-
-Próximas líneas posibles:
-
-- cumplimiento y gobierno digital en Chile;
-- compras públicas / ChileCompra;
-- documentación legal-operativa para pymes chilenas;
-- tributación y procesos SII;
-- ciberseguridad y cumplimiento local;
-- protección al consumidor en Chile;
-- skills sectoriales para salud, educación y ecommerce.
+**Guía paso a paso →** [`docs/guides/agregar-skill-en-claude.md`](docs/guides/agregar-skill-en-claude.md)
 
 ---
 
-## Estructura del repo
+## Diseño de las skills
+
+Cada skill intenta seguir cuatro principios:
+
+| Principio | Qué significa |
+|---|---|
+| **Chile primero** | fuentes, normativa y procesos locales antes de importar marcos extranjeros |
+| **Divulgación progresiva** | `SKILL.md` compacto y referencias profundas sólo cuando hacen falta |
+| **Evidencia > discurso** | no declarar cumplimiento sólo porque existe una política |
+| **Verificable** | estructura, enlaces y SVG se validan automáticamente en CI |
+
+La arquitectura sigue el patrón:
+
+```text
+PROBLEMA → ALCANCE → REGLA → APLICABILIDAD → EVIDENCIA → RIESGO → ACCIÓN → VERIFICACIÓN
+```
+
+---
+
+## Estructura
 
 ```text
 skills-chile/
 ├─ assets/
-│  └─ skills-chile-hero.svg
-├─ docs/
-│  └─ guides/
-│     ├─ agregar-skill-en-gpt.md
-│     └─ agregar-skill-en-claude.md
+│  ├─ skills-chile-hero.svg
+│  └─ skill-system.svg
 ├─ skills/
 │  └─ proteccion-datos-chile/
 │     ├─ SKILL.md
@@ -89,107 +141,82 @@ skills-chile/
 │        ├─ obligaciones-y-derechos.md
 │        ├─ seguridad-incidentes-dpia-ia.md
 │        └─ terceros-transferencias-sanciones.md
-├─ LICENSE
-└─ README.md
+├─ templates/
+│  └─ SKILL_TEMPLATE.md
+├─ docs/
+│  ├─ QUALITY_STANDARD.md
+│  ├─ ROADMAP.md
+│  └─ guides/
+├─ scripts/
+│  └─ validate_repo.py
+├─ .github/
+│  ├─ ISSUE_TEMPLATE/
+│  ├─ PULL_REQUEST_TEMPLATE.md
+│  └─ workflows/validate.yml
+├─ CATALOG.md
+├─ CONTRIBUTING.md
+├─ SECURITY.md
+└─ LICENSE
 ```
 
 ---
 
-## Cómo usar una skill de este repo
+## Quiero agregar una skill chilena
 
-La lógica es muy simple:
+1. copia [`templates/SKILL_TEMPLATE.md`](templates/SKILL_TEMPLATE.md);
+2. crea `skills/<nombre>/SKILL.md`;
+3. agrega referencias si son necesarias;
+4. ejecuta:
 
-1. eliges la skill;
-2. copias el contenido del `SKILL.md`;
-3. lo agregas a tu GPT, Claude o proyecto;
-4. si quieres más profundidad, sumas los archivos de `references/`.
-
-Puedes usar la skill tal como está o adaptarla a tu empresa, cliente o proyecto.
-
----
-
-## Cómo agregar una skill a GPT
-
-Guía breve y simple: [`docs/guides/agregar-skill-en-gpt.md`](docs/guides/agregar-skill-en-gpt.md)
-
-Resumen corto:
-
-1. abre tu **GPT**, **Proyecto** o espacio de instrucciones;
-2. crea una sección de instrucciones especializadas;
-3. pega el contenido de `SKILL.md`;
-4. si quieres más contexto, agrega también los archivos de referencia;
-5. prueba con un caso real.
-
-Ejemplo:
-
-```text
-Usa la skill proteccion-datos-chile para responder esta consulta.
-Analiza el caso según su régimen temporal, obligaciones aplicables,
-riesgos, evidencia faltante y acciones recomendadas.
+```bash
+python scripts/validate_repo.py
 ```
 
----
+5. abre un pull request siguiendo [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-## Cómo agregar una skill a Claude
-
-Guía breve y simple: [`docs/guides/agregar-skill-en-claude.md`](docs/guides/agregar-skill-en-claude.md)
-
-Resumen corto:
-
-1. abre tu proyecto o espacio de trabajo en Claude;
-2. crea una instrucción base o archivo de skill;
-3. pega el `SKILL.md`;
-4. agrega referencias si necesitas más profundidad;
-5. prueba la skill con tareas concretas.
-
-Ejemplo:
-
-```text
-Usa la skill proteccion-datos-chile.
-Quiero una revisión rápida de esta política de privacidad chilena,
-indicando brechas, artículos aplicables y prioridad de corrección.
-```
+Si sólo tienes la idea, abre una **solicitud de nueva skill** usando el template de Issues.
 
 ---
 
-## Filosofía del repo
+## Qué viene después
 
-Este repositorio busca que una skill sea:
+La primera skill es sólo el inicio. Algunas áreas naturales para crecer son:
 
-- **clara**;
-- **copiable**;
-- **útil en la práctica**;
-- **adaptable**;
-- **entendible incluso para alguien con poco conocimiento técnico**.
+- SII y tributación chilena;
+- ChileCompra / Mercado Público;
+- protección al consumidor;
+- ciberseguridad y cumplimiento;
+- ecommerce en Chile;
+- gobierno digital y sector público;
+- salud, educación y datos sensibles;
+- laboral y gestión de personas;
+- procesos para pymes y emprendimientos.
 
-No está pensado sólo para abogados o expertos. También apunta a:
-
-- fundadores;
-- pymes;
-- equipos de producto;
-- desarrolladores;
-- consultores;
-- personas que quieran empezar a usar IA con buenas instrucciones.
+Ver [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ---
 
-## Fuente legal principal de esta primera skill
+## Fuentes de la primera skill
 
-La fecha de vigencia del nuevo régimen está verificada en la Biblioteca del Congreso Nacional / LeyChile:
+Las fuentes normativas prioritarias son oficiales:
 
-- **Ley 21.719**: publicada el **13 de diciembre de 2024**;
-- **entrada en vigencia**: **1 de diciembre de 2026**.
+- Biblioteca del Congreso Nacional / LeyChile;
+- Diario Oficial;
+- Agencia de Protección de Datos Personales, cuando sus actos sean vigentes;
+- reguladores sectoriales cuando corresponda.
+
+El diseño operativo también toma ideas de proyectos GRC abiertos y de las buenas prácticas modernas de Agent Skills, pero **una buena práctica técnica nunca se presenta como obligación legal chilena si la ley no la establece**.
 
 ---
+
+## Aviso
+
+Este repositorio entrega herramientas de análisis y cumplimiento, no reemplaza asesoría jurídica profesional para litigios, sanciones, operaciones de alto impacto o interpretaciones dudosas.
 
 ## Licencia
 
-MIT.
+MIT. Revisa [`LICENSE`](LICENSE).
 
 ---
 
-## Nota final
-
-Este repo parte con **una sola skill**, pero la idea es convertirlo en una colección real de **skills útiles para Chile**.
-
-Si una skill ayuda a resolver un problema chileno real, entonces tiene espacio aquí.
+<p align="center"><strong>Hecho para convertir conocimiento chileno en herramientas que realmente se puedan usar.</strong></p>
