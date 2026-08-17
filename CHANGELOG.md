@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.0 — 2026-08-17
+
+### Agrega
+
+- nueva skill `svg-craft` para diseño y validación de SVG accesible y puro;
+- guardrails de renderizado real para perfiles y documentación en GitHub;
+- catálogo y README actualizados a 2 skills disponibles.
+
 ## v0.1.0 — 2026-08-14
 
 Primera versión pública de Skills Chile.

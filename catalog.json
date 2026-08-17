@@ -10,6 +10,13 @@
       "domains": ["legal", "privacy", "grc", "security", "ai"],
       "last_verified": "2026-08-14",
       "effective_date": "2026-12-01"
+    },
+    {
+      "name": "svg-craft",
+      "path": "skills/svg-craft",
+      "status": "available",
+      "domains": ["design", "svg", "documentation", "github"],
+      "last_verified": "2026-08-17"
     }
   ]
 }

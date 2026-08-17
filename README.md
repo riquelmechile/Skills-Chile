@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-1%20disponible-0f766e"></a>
+  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-2%20disponibles-0f766e"></a>
   <img alt="foco" src="https://img.shields.io/badge/foco-Chile-dc2626">
   <img alt="formato" src="https://img.shields.io/badge/formato-SKILL.md-2563eb">
   <img alt="licencia" src="https://img.shields.io/badge/licencia-MIT-111827">
@@ -21,13 +21,13 @@
 
 **Skills Chile** parte con una idea concreta: tomar conocimiento chileno que normalmente está repartido entre leyes, documentación, procesos y experiencia práctica, y convertirlo en **skills que una IA pueda ejecutar de forma consistente**.
 
-Este repositorio comienza con **una sola skill**, pero está diseñado desde el día uno para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
+Este repositorio ya reúne **dos skills disponibles** y está diseñado para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
 
 <p align="center">
   <img src="assets/skill-system.svg" alt="Cómo funciona una skill en Skills Chile" width="100%" />
 </p>
 
-## Primera skill disponible
+## Skills disponibles
 
 <table>
 <tr>
@@ -78,9 +78,21 @@ La primera skill incorpora guardrails específicos. Por ejemplo, no transforma a
 
 </details>
 
+### `svg-craft`
+
+Diseña y revisa SVG con foco en **accesibilidad, pureza vectorial y renderizado real en el destino**. Incluye guardrails para perfiles de GitHub, documentación y assets embebidos.
+
+- exige `viewBox`, `role="img"`, `<title>` y `<desc>` cuando corresponde;
+- evita raster embebido, assets externos, scripts y `<foreignObject>`;
+- revisa IDs, clipping, contraste, tipografía y fallbacks;
+- separa validación estructural, resolución de entrega y revisión visual;
+- para perfiles GitHub prioriza URLs canónicas `raw.githubusercontent.com` y verificación en la página real.
+
+**Abrir la skill →** [`skills/svg-craft/SKILL.md`](skills/svg-craft/SKILL.md)
+
 ---
 
-## Instalarla en menos de 5 minutos
+## Instalar una skill en menos de 5 minutos
 
 ### ChatGPT
 
@@ -134,13 +146,15 @@ skills-chile/
 │  ├─ skills-chile-hero.svg
 │  └─ skill-system.svg
 ├─ skills/
-│  └─ proteccion-datos-chile/
-│     ├─ SKILL.md
-│     └─ references/
-│        ├─ marco-y-vigencia.md
-│        ├─ obligaciones-y-derechos.md
-│        ├─ seguridad-incidentes-dpia-ia.md
-│        └─ terceros-transferencias-sanciones.md
+│  ├─ proteccion-datos-chile/
+│  │  ├─ SKILL.md
+│  │  └─ references/
+│  │     ├─ marco-y-vigencia.md
+│  │     ├─ obligaciones-y-derechos.md
+│  │     ├─ seguridad-incidentes-dpia-ia.md
+│  │     └─ terceros-transferencias-sanciones.md
+│  └─ svg-craft/
+│     └─ SKILL.md
 ├─ templates/
 │  └─ SKILL_TEMPLATE.md
 ├─ docs/
