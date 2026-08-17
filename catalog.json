@@ -7,7 +7,13 @@
       "name": "proteccion-datos-chile",
       "path": "skills/proteccion-datos-chile",
       "status": "available",
-      "domains": ["legal", "privacy", "grc", "security", "ai"],
+      "domains": [
+        "legal",
+        "privacy",
+        "grc",
+        "security",
+        "ai"
+      ],
       "last_verified": "2026-08-14",
       "effective_date": "2026-12-01"
     },
@@ -15,7 +21,64 @@
       "name": "svg-craft",
       "path": "skills/svg-craft",
       "status": "available",
-      "domains": ["design", "svg", "documentation", "github"],
+      "domains": [
+        "design",
+        "svg",
+        "documentation",
+        "github"
+      ],
+      "last_verified": "2026-08-17"
+    },
+    {
+      "name": "tributacion-pyme-chile",
+      "path": "skills/tributacion-pyme-chile",
+      "status": "available",
+      "domains": [
+        "tax",
+        "accounting",
+        "sii",
+        "f29",
+        "f22",
+        "pyme"
+      ],
+      "last_verified": "2026-07-22"
+    },
+    {
+      "name": "boletas-honorarios-chile",
+      "path": "skills/boletas-honorarios-chile",
+      "status": "available",
+      "domains": [
+        "tax",
+        "honorarios",
+        "independientes",
+        "sii"
+      ],
+      "last_verified": "2026-07-22"
+    },
+    {
+      "name": "facturacion-electronica-dte-chile",
+      "path": "skills/facturacion-electronica-dte-chile",
+      "status": "available",
+      "domains": [
+        "tax",
+        "dte",
+        "sii",
+        "xml",
+        "security"
+      ],
+      "last_verified": "2026-07-22"
+    },
+    {
+      "name": "rentabilidad-ecommerce-chile",
+      "path": "skills/rentabilidad-ecommerce-chile",
+      "status": "available",
+      "domains": [
+        "ecommerce",
+        "profitability",
+        "pricing",
+        "ads",
+        "chile"
+      ],
       "last_verified": "2026-08-17"
     }
   ]

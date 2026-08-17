@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-2%20disponibles-0f766e"></a>
+  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-6%20disponibles-0f766e"></a>
   <img alt="foco" src="https://img.shields.io/badge/foco-Chile-dc2626">
   <img alt="formato" src="https://img.shields.io/badge/formato-SKILL.md-2563eb">
   <img alt="licencia" src="https://img.shields.io/badge/licencia-MIT-111827">
@@ -21,7 +21,7 @@
 
 **Skills Chile** parte con una idea concreta: tomar conocimiento chileno que normalmente está repartido entre leyes, documentación, procesos y experiencia práctica, y convertirlo en **skills que una IA pueda ejecutar de forma consistente**.
 
-Este repositorio ya reúne **dos skills disponibles** y está diseñado para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
+Este repositorio ya reúne **seis skills disponibles** y está diseñado para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
 
 <p align="center">
   <img src="assets/skill-system.svg" alt="Cómo funciona una skill en Skills Chile" width="100%" />
@@ -90,6 +90,31 @@ Diseña y revisa SVG con foco en **accesibilidad, pureza vectorial y renderizado
 
 **Abrir la skill →** [`skills/svg-craft/SKILL.md`](skills/svg-craft/SKILL.md)
 
+
+### `tributacion-pyme-chile`
+
+Router tributario para Pymes: ordena DTE/RCV, prepara IVA/F29, PPM y antecedentes F22 sin inventar régimen, créditos ni estados oficiales.
+
+**Abrir →** [`skills/tributacion-pyme-chile/SKILL.md`](skills/tributacion-pyme-chile/SKILL.md)
+
+### `boletas-honorarios-chile`
+
+Flujo específico para independientes: tasas de retención versionadas por año, bruto/retención/líquido y evidencia, separando honorarios de DTE 41.
+
+**Abrir →** [`skills/boletas-honorarios-chile/SKILL.md`](skills/boletas-honorarios-chile/SKILL.md)
+
+### `facturacion-electronica-dte-chile`
+
+Diseño y auditoría de emisión electrónica con XSD, CAF/TED, folios, firma, autenticación, estados SII y separación estricta entre certificación y producción.
+
+**Abrir →** [`skills/facturacion-electronica-dte-chile/SKILL.md`](skills/facturacion-electronica-dte-chile/SKILL.md)
+
+### `rentabilidad-ecommerce-chile`
+
+Calcula contribución, margen, markup y ROAS usando costos y comisiones reales. Si falta un costo material, la salida correcta es **no concluyente**, no una cifra inventada.
+
+**Abrir →** [`skills/rentabilidad-ecommerce-chile/SKILL.md`](skills/rentabilidad-ecommerce-chile/SKILL.md)
+
 ---
 
 ## Instalar una skill en menos de 5 minutos
@@ -143,33 +168,17 @@ PROBLEMA → ALCANCE → REGLA → APLICABILIDAD → EVIDENCIA → RIESGO → AC
 ```text
 skills-chile/
 ├─ assets/
-│  ├─ skills-chile-hero.svg
-│  └─ skill-system.svg
 ├─ skills/
 │  ├─ proteccion-datos-chile/
-│  │  ├─ SKILL.md
-│  │  └─ references/
-│  │     ├─ marco-y-vigencia.md
-│  │     ├─ obligaciones-y-derechos.md
-│  │     ├─ seguridad-incidentes-dpia-ia.md
-│  │     └─ terceros-transferencias-sanciones.md
-│  └─ svg-craft/
-│     └─ SKILL.md
+│  ├─ svg-craft/
+│  ├─ tributacion-pyme-chile/
+│  ├─ boletas-honorarios-chile/
+│  ├─ facturacion-electronica-dte-chile/
+│  └─ rentabilidad-ecommerce-chile/
 ├─ templates/
-│  └─ SKILL_TEMPLATE.md
 ├─ docs/
-│  ├─ QUALITY_STANDARD.md
-│  ├─ ROADMAP.md
-│  └─ guides/
 ├─ scripts/
-│  └─ validate_repo.py
-├─ .github/
-│  ├─ ISSUE_TEMPLATE/
-│  ├─ PULL_REQUEST_TEMPLATE.md
-│  └─ workflows/validate.yml
 ├─ CATALOG.md
-├─ CONTRIBUTING.md
-├─ SECURITY.md
 └─ LICENSE
 ```
 
@@ -194,13 +203,11 @@ Si sólo tienes la idea, abre una **solicitud de nueva skill** usando el templat
 
 ## Qué viene después
 
-La primera skill es sólo el inicio. Algunas áreas naturales para crecer son:
+Con seis skills publicadas, la siguiente ola prioriza áreas que todavía requieren investigación y revalidación oficial:
 
-- SII y tributación chilena;
 - ChileCompra / Mercado Público;
 - protección al consumidor;
 - ciberseguridad y cumplimiento;
-- ecommerce en Chile;
 - gobierno digital y sector público;
 - salud, educación y datos sensibles;
 - laboral y gestión de personas;

@@ -8,18 +8,20 @@
 - [x] plantilla de nuevas skills
 - [x] contribuciones e issues
 - [x] validación automática
-- [x] primera skill: `proteccion-datos-chile`
+- [x] `proteccion-datos-chile`
+- [x] `svg-craft`
 
-## Fase 2 — Próximas skills
+## Fase 2 — Expansión Chile
 
-Candidatas, sujetas a investigación y fuentes suficientes:
-
-- SII / obligaciones tributarias comunes
-- ChileCompra / Mercado Público
-- protección al consumidor
-- ciberseguridad y cumplimiento chileno
-- ecommerce y operación local
-- gobierno digital
+- [x] tributación Pyme / F29 / F22
+- [x] boletas de honorarios
+- [x] facturación electrónica DTE
+- [x] rentabilidad ecommerce
+- [ ] ChileCompra / Mercado Público — requiere investigación oficial actual
+- [ ] protección al consumidor y ecommerce — requiere investigación SERNAC/BCN actual
+- [ ] remuneraciones / Previred — requiere tablas y fuentes versionadas
+- [ ] ciberseguridad y cumplimiento chileno — requiere revalidación normativa
+- [ ] gobierno digital / sector público
 
 ## Fase 3 — Madurez
 

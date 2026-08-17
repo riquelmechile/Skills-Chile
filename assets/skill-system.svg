@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="skillSystemTitle skillSystemDesc">
   <title id="skillSystemTitle">Flujo de una skill de Skills Chile</title>
-  <desc id="skillSystemDesc">Diagrama de cinco etapas para convertir un problema chileno en una salida verificable. La colección actual incluye proteccion-datos-chile y svg-craft.</desc>
+  <desc id="skillSystemDesc">Diagrama de cinco etapas para convertir un problema chileno en una salida verificable. La colección actual incluye seis skills con privacidad, tributación, honorarios, DTE, ecommerce y diseño SVG.</desc>
   <defs>
     <linearGradient id="flowBg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#071426"/>
@@ -72,6 +72,6 @@
     </g>
   </g>
 
-  <text x="70" y="456" fill="#94a3b8" font-size="17" font-family="Arial, Helvetica, sans-serif">Colección actual: proteccion-datos-chile · svg-craft</text>
+  <text x="70" y="456" fill="#94a3b8" font-size="17" font-family="Arial, Helvetica, sans-serif">Colección actual: 6 skills · privacidad · tributación · honorarios · DTE · ecommerce · SVG</text>
   <text x="70" y="486" fill="#64748b" font-size="16" font-family="Arial, Helvetica, sans-serif">Skills Chile · instrucciones compactas + referencias progresivas + validación automática</text>
 </svg>
