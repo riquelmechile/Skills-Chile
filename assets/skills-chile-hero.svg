@@ -1,89 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="skillsChileTitle skillsChileDesc">
-  <title id="skillsChileTitle">Skills Chile — 2 skills disponibles</title>
-  <desc id="skillsChileDesc">Hero del repositorio Skills Chile. Muestra las dos skills disponibles: proteccion-datos-chile para privacidad y cumplimiento, y svg-craft para diseño y validación de SVG.</desc>
+  <title id="skillsChileTitle">Skills Chile — 6 skills disponibles</title>
+  <desc id="skillsChileDesc">Catálogo visual de seis skills: protección de datos, SVG Craft, tributación Pyme, boletas de honorarios, facturación electrónica DTE y rentabilidad ecommerce.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#07111f"/>
-      <stop offset="100%" stop-color="#0f172a"/>
-    </linearGradient>
-    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#dc2626"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000000" flood-opacity="0.28"/>
-    </filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07111f"/><stop offset="1" stop-color="#0f172a"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#dc2626"/></linearGradient>
   </defs>
-
   <rect width="1600" height="900" fill="url(#bg)"/>
-  <circle cx="1320" cy="170" r="190" fill="#2563eb" opacity="0.10"/>
-  <circle cx="240" cy="780" r="230" fill="#dc2626" opacity="0.08"/>
+  <circle cx="1380" cy="120" r="210" fill="#2563eb" opacity="0.09"/>
+  <circle cx="180" cy="820" r="250" fill="#dc2626" opacity="0.07"/>
+  <rect x="78" y="70" width="1444" height="760" rx="38" fill="#ffffff" opacity="0.055" stroke="#ffffff" stroke-opacity="0.16"/>
+  <rect x="110" y="104" width="1380" height="10" rx="5" fill="url(#accent)"/>
 
-  <g filter="url(#shadow)">
-    <rect x="88" y="88" width="1424" height="724" rx="36" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.12"/>
-  </g>
-  <rect x="120" y="120" width="1360" height="12" rx="6" fill="url(#accent)"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="120" y="184" fill="#ffffff" font-size="58" font-weight="700">Skills Chile</text>
+    <text x="122" y="228" fill="#cbd5e1" font-size="24">Conocimiento chileno convertido en flujos ejecutables, verificables y reutilizables</text>
+    <rect x="122" y="258" width="238" height="48" rx="24" fill="#0f766e"/>
+    <text x="150" y="290" fill="#ecfeff" font-size="21" font-weight="700">6 skills disponibles</text>
+    <text x="390" y="289" fill="#94a3b8" font-size="19">v0.3.0 · Chile primero · evidencia &gt; discurso</text>
 
-  <g transform="translate(140 170)">
-    <rect width="120" height="120" rx="24" fill="#ffffff" opacity="0.10"/>
-    <rect x="12" y="12" width="96" height="96" rx="20" fill="#ffffff"/>
-    <rect x="12" y="12" width="48" height="48" fill="#0039a6"/>
-    <path d="M36 23l4.9 14.8H56L43.6 46.9l4.8 14.7L36 52.7l-12.4 8.9 4.8-14.7L16 37.8h15.1z" fill="#ffffff"/>
-    <rect x="12" y="60" width="96" height="48" fill="#d52b1e"/>
-  </g>
-
-  <text x="290" y="220" fill="#ffffff" font-size="64" font-family="Arial, Helvetica, sans-serif" font-weight="700">Skills Chile</text>
-  <text x="292" y="270" fill="#cbd5e1" font-size="28" font-family="Arial, Helvetica, sans-serif">Skills abiertas y reutilizables para problemas, procesos y productos reales</text>
-
-  <g transform="translate(290 320)">
-    <rect width="260" height="54" rx="27" fill="#0f766e"/>
-    <text x="30" y="35" fill="#ecfeff" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700">2 skills disponibles</text>
-  </g>
-  <text x="580" y="355" fill="#94a3b8" font-size="20" font-family="Arial, Helvetica, sans-serif">v0.2.0 · catálogo vivo · validación automática</text>
-
-  <g transform="translate(290 405)">
-    <rect width="520" height="240" rx="28" fill="#ffffff" opacity="0.075" stroke="#2563eb" stroke-opacity="0.45"/>
-    <circle cx="54" cy="54" r="25" fill="#2563eb"/>
-    <path d="M42 54l9 9 17-20" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="96" y="63" fill="#ffffff" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">proteccion-datos-chile</text>
-    <text x="36" y="112" fill="#bfdbfe" font-size="22" font-family="Arial, Helvetica, sans-serif">Privacidad · Legal · GRC · IA</text>
-    <text x="36" y="153" fill="#e2e8f0" font-size="20" font-family="Arial, Helvetica, sans-serif">Ley 19.628 + transición a Ley 21.719</text>
-    <text x="36" y="188" fill="#cbd5e1" font-size="18" font-family="Arial, Helvetica, sans-serif">Cumplimiento, software, políticas y auditoría</text>
-    <text x="36" y="219" fill="#94a3b8" font-size="17" font-family="Arial, Helvetica, sans-serif">Nuevo régimen: 01-DIC-2026</text>
-  </g>
-
-  <g transform="translate(840 405)">
-    <rect width="520" height="240" rx="28" fill="#ffffff" opacity="0.075" stroke="#7c3aed" stroke-opacity="0.55"/>
-    <circle cx="54" cy="54" r="25" fill="#7c3aed"/>
-    <path d="M42 62l13-30 13 30M47 52h16" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="96" y="63" fill="#ffffff" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">svg-craft</text>
-    <text x="36" y="112" fill="#ddd6fe" font-size="22" font-family="Arial, Helvetica, sans-serif">Diseño · SVG · Documentación · GitHub</text>
-    <text x="36" y="153" fill="#e2e8f0" font-size="20" font-family="Arial, Helvetica, sans-serif">SVG puro, accesible y verificable</text>
-    <text x="36" y="188" fill="#cbd5e1" font-size="18" font-family="Arial, Helvetica, sans-serif">Estructura + entrega real + revisión visual</text>
-    <text x="36" y="219" fill="#94a3b8" font-size="17" font-family="Arial, Helvetica, sans-serif">Guardrails para README y perfiles GitHub</text>
-  </g>
-
-  <g transform="translate(290 680)" font-family="Arial, Helvetica, sans-serif">
-    <rect width="340" height="58" rx="18" fill="#ffffff" opacity="0.08"/>
-    <text x="24" y="25" fill="#94a3b8" font-size="16">Formato</text>
-    <text x="24" y="46" fill="#ffffff" font-size="20" font-weight="700">SKILL.md reutilizable</text>
-
-    <g transform="translate(365 0)">
-      <rect width="340" height="58" rx="18" fill="#ffffff" opacity="0.08"/>
-      <text x="24" y="25" fill="#94a3b8" font-size="16">Criterio</text>
-      <text x="24" y="46" fill="#ffffff" font-size="20" font-weight="700">Evidencia &gt; discurso</text>
+    <g transform="translate(120 340)">
+      <rect width="650" height="126" rx="22" fill="#ffffff" opacity="0.07" stroke="#2563eb" stroke-opacity="0.55"/>
+      <text x="28" y="45" fill="#ffffff" font-size="26" font-weight="700">proteccion-datos-chile</text>
+      <text x="28" y="78" fill="#bfdbfe" font-size="18">Privacidad · Ley 19.628 → Ley 21.719</text>
+      <text x="28" y="105" fill="#94a3b8" font-size="16">Cumplimiento · evidencia · IA · seguridad</text>
+    </g>
+    <g transform="translate(830 340)">
+      <rect width="650" height="126" rx="22" fill="#ffffff" opacity="0.07" stroke="#7c3aed" stroke-opacity="0.55"/>
+      <text x="28" y="45" fill="#ffffff" font-size="26" font-weight="700">svg-craft</text>
+      <text x="28" y="78" fill="#ddd6fe" font-size="18">SVG puro · accesible · portable</text>
+      <text x="28" y="105" fill="#94a3b8" font-size="16">Estructura · entrega real · revisión visual</text>
     </g>
 
-    <g transform="translate(730 0)">
-      <rect width="340" height="58" rx="18" fill="#ffffff" opacity="0.08"/>
-      <text x="24" y="25" fill="#94a3b8" font-size="16">Objetivo</text>
-      <text x="24" y="46" fill="#ffffff" font-size="20" font-weight="700">Simple, abierto y útil</text>
+    <g transform="translate(120 490)">
+      <rect width="650" height="126" rx="22" fill="#ffffff" opacity="0.07" stroke="#0f766e" stroke-opacity="0.65"/>
+      <text x="28" y="45" fill="#ffffff" font-size="26" font-weight="700">tributacion-pyme-chile</text>
+      <text x="28" y="78" fill="#a7f3d0" font-size="18">DTE/RCV · IVA/F29 · PPM · F22</text>
+      <text x="28" y="105" fill="#94a3b8" font-size="16">Estimación ≠ declaración · reglas versionadas</text>
     </g>
-  </g>
+    <g transform="translate(830 490)">
+      <rect width="650" height="126" rx="22" fill="#ffffff" opacity="0.07" stroke="#d97706" stroke-opacity="0.65"/>
+      <text x="28" y="45" fill="#ffffff" font-size="26" font-weight="700">boletas-honorarios-chile</text>
+      <text x="28" y="78" fill="#fde68a" font-size="18">Segunda Categoría · retención por año</text>
+      <text x="28" y="105" fill="#94a3b8" font-size="16">Bruto · retención · líquido · evidencia</text>
+    </g>
 
-  <text x="120" y="782" fill="#94a3b8" font-size="18" font-family="Arial, Helvetica, sans-serif">Skills Chile · proteccion-datos-chile + svg-craft · catálogo abierto para seguir creciendo</text>
+    <g transform="translate(120 640)">
+      <rect width="650" height="126" rx="22" fill="#ffffff" opacity="0.07" stroke="#dc2626" stroke-opacity="0.60"/>
+      <text x="28" y="45" fill="#ffffff" font-size="26" font-weight="700">facturacion-electronica-dte-chile</text>
+      <text x="28" y="78" fill="#fecaca" font-size="18">XSD · CAF/TED · folios · firma · estados SII</text>
+      <text x="28" y="105" fill="#94a3b8" font-size="16">Certificación ≠ producción · seguridad fail-closed</text>
+    </g>
+    <g transform="translate(830 640)">
+      <rect width="650" height="126" rx="22" fill="#ffffff" opacity="0.07" stroke="#0891b2" stroke-opacity="0.65"/>
+      <text x="28" y="45" fill="#ffffff" font-size="26" font-weight="700">rentabilidad-ecommerce-chile</text>
+      <text x="28" y="78" fill="#a5f3fc" font-size="18">Costos · margen · markup · ROAS</text>
+      <text x="28" y="105" fill="#94a3b8" font-size="16">Comisión real · decisiones con evidencia</text>
+    </g>
+
+    <text x="120" y="808" fill="#64748b" font-size="16">skills-chile · catálogo abierto · fuentes oficiales cuando corresponde · validación automática</text>
+  </g>
 </svg>

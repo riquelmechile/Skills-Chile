@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.3.0 — 2026-08-17
+
+### Agrega
+
+- `tributacion-pyme-chile` para evidencia DTE/RCV, IVA/F29, PPM y preparación F22;
+- `boletas-honorarios-chile` con retenciones versionadas y guardrails de Segunda Categoría;
+- `facturacion-electronica-dte-chile` para XSD, CAF/TED, firma, estados y certificación SII;
+- `rentabilidad-ecommerce-chile` para costos, contribución, margen, markup y ROAS;
+- referencias separadas, fuentes y vigencia explícita para las skills regulatorias;
+- catálogo, roadmap e identidad visual preparados para seis skills.
+
 ## v0.2.0 — 2026-08-17
 
 ### Agrega
