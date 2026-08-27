@@ -1,0 +1,80 @@
+def render_text(c: Chart) -> str:
+    lines = ["=== BaZi ===", *c.notes, "", "Pilares:"]
+    for k in PILLAR_KEYS:
+        p = c.pillars[k]
+        if not p:
+            lines.append(f"  {PILLAR_ES[k]:<6} — (sin hora)")
+            continue
+        occ = ", ".join(f"{zh(o['tallo'])} {zh(o['dios'])}" for o in p["ocultos"])
+        lines.append(
+            f"  {PILLAR_ES[k]:<6} {zh_gz(p['ganzhi'])}  "
+            f"tallo {zh(p['tallo'])} {p['elemento_tallo']} {p['polaridad']}"
+            f" ({zh(p['dios_tallo'])}) · rama {zh(p['rama'])} {p['animal']} {p['elemento_rama']} · ocultos {occ}"
+        )
+    lines += ["", "Reparto elemental (%):"]
+    for e in ELEM_ES:
+        bar = "█" * int(round(c.elements[e] / 4)) + "░" * (25 - int(round(c.elements[e] / 4)))
+        lines.append(f"  {e:<8} {c.elements[e]:5.1f}%  {bar}")
+    dm = c.day_master
+    lines += [
+        "",
+        f"Amo del Día: {zh(dm['tallo'])} ({dm['elemento']} {dm['polaridad']}) — {zh_gz(dm['ganzhi_dia'])}",
+        c.strength["lectura"],
+        "",
+        f"Grandes Ciclos (sexo {c.sex}, dirección {c.luck[0]['direccion']}):",
+    ]
+    for lp in c.luck:
+        lines.append(
+            f"  {lp['edad_inicio']:>5.1f}–{lp['edad_fin']:<5.1f}  {lp['pilar']}  "
+            f"{lp['elemento_tallo']}  {zh(lp['dios'])}"
+        )
+    th = c.tiaohou
+    lines += [
+        "",
+        "=== Ajuste climático fino (调候 / 穷通宝鉴 = Espejo de ajuste) + enfermedades y hierbas ===",
+        f"Amo {zh(th.get('amo') or '')} en mes {zh(th['rama_mes'])} · clima {th['clima_mes']}",
+        th.get("yongshen_nota") or "",
+        "Dios útil (用神): " + ", ".join(
+            f"{zh(y['tallo'])}{' presente' if y['presente'] else ' ausente'}"
+            for y in th.get("yongshen") or []
+        ),
+        "Faltan: " + (zh_stems(th.get("yongshen_faltan") or []) or "ninguno"),
+        f"Zangfu: {th.get('zangfu', {}).get('fu')} / {th.get('zangfu', {}).get('zang')} "
+        f"({th.get('zangfu', {}).get('tejidos', '')})",
+        "Patrones: " + zh_patrons(th.get("zangfu", {}).get("patrones") or []),
+        "Enfermedades que nombra el tratado (tallo): " + "; ".join(th.get("enfermedades_tallo") or []),
+        f"Por escasez de {th['escaso']}: " + "; ".join((th.get("enfermedades_escaso") or [])[:3]),
+        "Hierbas: " + zh_herbs(th.get("hierbas_tallo") or []),
+        "Alimentos: " + ", ".join(th.get("alimentos") or []),
+        f"Té: {zh_mix(th.get('te') or '')}",
+        "Evitar: " + ", ".join(th.get("evitar") or []),
+        f"Estación local ({th['hemisferio']}, {th['estacion_local_ahora']}): {th['habito_estacion_ahora']}",
+        "Fuente: Espejo precioso (穷通宝鉴) × Compendio de las tres vidas (三命通会) × dietoterapia (食疗). Sin dosis. Sin diagnóstico de consultorio.",
+    ]
+    return "\n".join(lines)
+
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description="Cálculo BaZi")
+    p.add_argument("--fecha", required=True, help="YYYY-MM-DD")
+    p.add_argument("--hora", default=None, help="HH:MM hora de reloj")
+    p.add_argument("--sexo", required=True, choices=["M", "F", "m", "f"])
+    p.add_argument("--tz", default="America/Santiago")
+    p.add_argument("--lon", type=float, default=-70.65)
+    p.add_argument("--sin-hora", action="store_true")
+    p.add_argument("--json", action="store_true")
+    return p
+
+
+def main(argv=None) -> int:
+    args = build_parser().parse_args(argv)
+    chart = compute(args.fecha, args.hora, args.sexo, args.tz, args.lon, args.sin_hora)
+    if args.json:
+        print(json.dumps(chart.as_dict(), ensure_ascii=False, indent=2))
+    else:
+        print(render_text(chart))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
