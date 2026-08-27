@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""BaZi (cuatro pilares) con hora solar verdadera y términos solares."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+from glosario import t as zh, stems as zh_stems, patrons as zh_patrons
+from glosario import herbs as zh_herbs, ganzhi as zh_gz, mix as zh_mix
+
+STEMS = list("甲乙丙丁戊己庚辛壬癸")
+BRANCHES = list("子丑寅卯辰巳午未申酉戌亥")
+STEM_ELEM = ["Madera", "Madera", "Fuego", "Fuego", "Tierra", "Tierra",
+             "Metal", "Metal", "Agua", "Agua"]
+STEM_POL = ["Yang", "Yin"] * 5
+BRANCH_ELEM = ["Agua", "Tierra", "Madera", "Madera", "Tierra", "Fuego",
+               "Fuego", "Tierra", "Metal", "Metal", "Tierra", "Agua"]
+BRANCH_ANIMAL = ["Rata", "Buey", "Tigre", "Conejo", "Dragón", "Serpiente",
+                 "Caballo", "Cabra", "Mono", "Gallo", "Perro", "Cerdo"]
+ELEM_ES = ["Madera", "Fuego", "Tierra", "Metal", "Agua"]
+GEN = {"Madera": "Fuego", "Fuego": "Tierra", "Tierra": "Metal",
+       "Metal": "Agua", "Agua": "Madera"}
+CTRL = {"Madera": "Tierra", "Fuego": "Metal", "Tierra": "Agua",
+        "Metal": "Madera", "Agua": "Fuego"}
+
+# Tallos ocultos (principal primero) y pesos relativos
+HIDDEN = {
+    0: [(9, 1.0)],
+    1: [(5, 0.6), (9, 0.2), (7, 0.2)],
+    2: [(0, 0.6), (2, 0.2), (4, 0.2)],
+    3: [(1, 1.0)],
+    4: [(4, 0.6), (1, 0.2), (9, 0.2)],
+    5: [(2, 0.6), (6, 0.2), (4, 0.2)],
+    6: [(3, 0.7), (5, 0.3)],
+    7: [(5, 0.6), (3, 0.2), (1, 0.2)],
+    8: [(6, 0.6), (8, 0.2), (4, 0.2)],
+    9: [(7, 1.0)],
+    10: [(4, 0.6), (7, 0.2), (3, 0.2)],
+    11: [(8, 0.7), (0, 0.3)],
+}
+
+GODS = {
+    ("same", "same"): "比肩",
+    ("same", "opp"): "劫财",
+    ("prod", "same"): "食神",
+    ("prod", "opp"): "伤官",
+    ("ctrl", "same"): "偏财",
+    ("ctrl", "opp"): "正财",
+    ("ctrl_me", "same"): "七杀",
+    ("ctrl_me", "opp"): "正官",
+    ("res", "same"): "偏印",
+    ("res", "opp"): "正印",
+}
+GOD_ES = {
+    "比肩": "Comparación (compañero)",
+    "劫财": "Robo de riqueza (competencia)",
+    "食神": "Espíritu de alimento",
+    "伤官": "Oficial herido",
+    "偏财": "Riqueza indirecta",
+    "正财": "Riqueza directa",
+    "七杀": "Siete asesinatos",
+    "正官": "Oficial directo",
+    "偏印": "Sello indirecto",
+    "正印": "Sello directo",
+}
+
+SEASON_POWER = {
+    "Madera": {"Madera": 1.2, "Fuego": 1.0, "Tierra": 0.8, "Metal": 0.6, "Agua": 1.0},
+    "Fuego": {"Madera": 1.0, "Fuego": 1.2, "Tierra": 1.0, "Metal": 0.8, "Agua": 0.6},
+    "Tierra": {"Madera": 0.6, "Fuego": 1.0, "Tierra": 1.2, "Metal": 1.0, "Agua": 0.8},
+    "Metal": {"Madera": 0.8, "Fuego": 0.6, "Tierra": 1.0, "Metal": 1.2, "Agua": 1.0},
+    "Agua": {"Madera": 1.0, "Fuego": 0.8, "Tierra": 0.6, "Metal": 1.0, "Agua": 1.2},
+}
+
+PILLAR_KEYS = ("year", "month", "day", "hour")
+PILLAR_ES = {"year": "Año", "month": "Mes", "day": "Día", "hour": "Hora"}
+
+# Clima del mes BaZi (rama). 调候 aproximado, no tabla fina de 穷通宝鉴 por día.
+CLIMA_MES = {
+    11: "frio", 0: "frio", 1: "frio-humedo",       # 亥子丑
+    2: "templado", 3: "templado",                   # 寅卯
+    4: "humedo",                                    # 辰
+    5: "calido", 6: "calido", 7: "calido-humedo",   # 巳午未
+    8: "seco", 9: "seco",                           # 申酉
+    10: "seco",                                     # 戌
+}
+HABITO_CLIMA = {
+    "frio": "Calor de ritmo: sol de mañana, comida caliente, no madrugar a oscuras, no baño helado.",
+    "frio-humedo": "Calor seco de ritmo: cocido, movimiento, no crudo ni humedad acumulada.",
+    "calido": "Frescura de ritmo: sombra, agua, menos picante, dormir de verdad.",
+    "calido-humedo": "Frescura que no empape: movimiento, comida ligera, no hielo a destajo ni siesta húmeda larga.",
+    "humedo": "Secar con ritmo: caminar después de comer, no picar, menos crudo.",
+    "seco": "Humectar de ritmo: agua, menos picante, recoger el día temprano.",
+    "templado": "Sin urgencia de clima. Mandan el elemento escaso y el saturado.",
+}
+HABITO_ESCASO = {
+    "Madera": "Caminar, estirar, no aplazarse. El brote pide paso, no más plan.",
+    "Fuego": "Sol de mañana y trato. No aislarse en seco.",
+    "Tierra": "Horario fijo de comida. Un frente menos, no más rumia.",
+    "Metal": "Respirar, terminar, decir no. El corte limpio vale más que otro proyecto.",
+    "Agua": "Dormir, calor en pies y cintura, menos heroísmo nocturno.",
+}
+HABITO_SATURA = {
+    "Madera": "No pelear cada borde. Cortar estímulos.",
+    "Fuego": "Menos pantalla y menos picante. El brillo se apaga durmiendo.",
+    "Tierra": "Moverse después de comer. La rumia no digestiona.",
+    "Metal": "No podar de más. Humectar el corte.",
+    "Agua": "Movimiento y calor moderado. La reserva que no se usa se estanca.",
+}
+ESTACION_NEIJING = {
+    "primavera": "Acostarse más tarde, levantarse temprano, caminar, no reprimir el brote.",
+    "verano": "No odiar el sol, no montar en ira, dejar salir. Dormir igual cuenta.",
+    "otono": "Acostarse y levantarse temprano. Recoger el shen. Humectar.",
+    "invierno": "Acostarse temprano, levantarse tarde, esperar la luz. No gastar la piel.",
+}
+
+
+def julian_day(dt: datetime) -> float:
+    """JD a partir de datetime timezone-aware convertido a UTC."""
+    utc = dt.astimezone(ZoneInfo("UTC"))
+    y, m = utc.year, utc.month
+    d = utc.day + (utc.hour + utc.minute / 60 + utc.second / 3600) / 24
+    if m <= 2:
+        y -= 1
+        m += 12
+    a = y // 100
+    b = 2 - a + a // 4
+    return int(365.25 * (y + 4716)) + int(30.6001 * (m + 1)) + d + b - 1524.5
+
+
+def solar_longitude(jd: float) -> float:
+    n = jd - 2451545.0
+    L = (280.460 + 0.98564736 * n) % 360
+    g = math.radians((357.528 + 0.98560028 * n) % 360)
+    lam = L + 1.915 * math.sin(g) + 0.020 * math.sin(2 * g)
+    return lam % 360
+
+
+def equation_of_time_minutes(jd: float) -> float:
+    n = jd - 2451545.0
