@@ -8,6 +8,7 @@
 | [`boletas-honorarios-chile`](skills/boletas-honorarios-chile/SKILL.md) | Disponible | Tributación · Honorarios · Independientes | 2026-07-22 | Retención versionada, bruto/líquido y evidencia de honorarios de Segunda Categoría |
 | [`facturacion-electronica-dte-chile`](skills/facturacion-electronica-dte-chile/SKILL.md) | Disponible | SII · DTE · XML · Seguridad | 2026-07-22 | Diseño y auditoría de emisión DTE, certificación, CAF/TED, firma y estados oficiales |
 | [`rentabilidad-ecommerce-chile`](skills/rentabilidad-ecommerce-chile/SKILL.md) | Disponible | Ecommerce · Pricing · Ads · Finanzas | 2026-08-17 | Costos reales, contribución, margen, markup y ROAS sin reglas privadas hardcodeadas |
+| [`lectura-comparada`](skills/lectura-comparada/SKILL.md) | Disponible | Cultura · Sistemas simbólicos · BaZi · I Ching | 2026-08-26 | Lectura integrada de mano, BaZi, numerología, I Ching y yangsheng con límites explícitos: sin diagnóstico médico ni predicción factual |
 
 ## Próximas áreas
 
