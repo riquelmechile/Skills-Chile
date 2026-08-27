@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-6%20disponibles-0f766e"></a>
+  <a href="CATALOG.md"><img alt="skills" src="https://img.shields.io/badge/skills-7%20disponibles-0f766e"></a>
   <img alt="foco" src="https://img.shields.io/badge/foco-Chile-dc2626">
   <img alt="formato" src="https://img.shields.io/badge/formato-SKILL.md-2563eb">
   <img alt="licencia" src="https://img.shields.io/badge/licencia-MIT-111827">
@@ -21,7 +21,7 @@
 
 **Skills Chile** parte con una idea concreta: tomar conocimiento chileno que normalmente está repartido entre leyes, documentación, procesos y experiencia práctica, y convertirlo en **skills que una IA pueda ejecutar de forma consistente**.
 
-Este repositorio ya reúne **seis skills disponibles** y está diseñado para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
+Este repositorio ya reúne **siete skills disponibles** y está diseñado para crecer mediante un catálogo, plantillas, contribuciones y validación automática.
 
 <p align="center">
   <img src="assets/skill-system.svg" alt="Cómo funciona una skill en Skills Chile" width="100%" />
@@ -174,7 +174,8 @@ skills-chile/
 │  ├─ tributacion-pyme-chile/
 │  ├─ boletas-honorarios-chile/
 │  ├─ facturacion-electronica-dte-chile/
-│  └─ rentabilidad-ecommerce-chile/
+│  ├─ rentabilidad-ecommerce-chile/
+│  └─ lectura-comparada/
 ├─ templates/
 ├─ docs/
 ├─ scripts/
@@ -203,7 +204,7 @@ Si sólo tienes la idea, abre una **solicitud de nueva skill** usando el templat
 
 ## Qué viene después
 
-Con seis skills publicadas, la siguiente ola prioriza áreas que todavía requieren investigación y revalidación oficial:
+Con siete skills publicadas, la siguiente ola prioriza áreas que todavía requieren investigación y revalidación oficial:
 
 - ChileCompra / Mercado Público;
 - protección al consumidor;
