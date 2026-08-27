@@ -1,0 +1,175 @@
+    # Aproximación suficiente para corrección de minutos
+    D = math.radians((360.0 / 365.24) * (n + 1))
+    return (9.87 * math.sin(2 * D) - 7.53 * math.cos(D) - 1.5 * math.sin(D))
+
+
+def true_solar_datetime(local: datetime, lon: float) -> tuple[datetime, float]:
+    """Devuelve datetime en hora solar verdadera y corrección total en minutos."""
+    utc = local.astimezone(ZoneInfo("UTC"))
+    jd = julian_day(local)
+    eot = equation_of_time_minutes(jd)
+    mean_solar_offset_min = lon * 4.0  # 4 min por grado; lon oeste negativa
+    utc_offset_min = local.utcoffset().total_seconds() / 60
+    # Hora media local de huso = UTC + utc_offset
+    # Hora media del meridiano real = UTC + lon*4 min
+    # Diferencia huso vs meridiano = lon*4 - utc_offset
+    corr = mean_solar_offset_min - utc_offset_min + eot
+    solar = local + timedelta(minutes=corr)
+    return solar, corr
+
+
+def year_pillar_index(year: int) -> tuple[int, int]:
+    return (year - 4) % 10, (year - 4) % 12
+
+
+def solar_year_and_month(solar: datetime) -> tuple[int, int, float]:
+    """Año BaZi (tras 立春) y rama de mes (寅=2 … 丑=1) según longitud solar."""
+    jd = julian_day(solar)
+    lon = solar_longitude(jd)
+    # 立春 = 315°. Si lon >= 315 o el día está después del paso.
+    year = solar.year
+    if lon < 315 and solar.month <= 2:
+        year -= 1
+    # Meses solares: 寅 starts at 315, then every 30°
+    # Map longitude to branch: 315-345 寅(2), 345-15 卯(3), 15-45 辰(4), ...
+    shifted = (lon - 315) % 360
+    month_ord = int(shifted // 30)  # 0=寅
+    month_branch = (2 + month_ord) % 12
+    return year, month_branch, lon
+
+
+def month_stem(year_stem: int, month_branch: int) -> int:
+    # 五虎遁: 寅 month stem from year stem
+    bases = {0: 2, 1: 4, 2: 6, 3: 8, 4: 0, 5: 2, 6: 4, 7: 6, 8: 8, 9: 0}
+    yin_stem = bases[year_stem]
+    offset = (month_branch - 2) % 12
+    return (yin_stem + offset) % 10
+
+
+def day_pillar(solar: datetime) -> tuple[int, int]:
+    """Pilar día. Ancla: 2000-01-01 civil UTC mediodía ≈ 戊午."""
+    jd = julian_day(solar.replace(hour=12, minute=0, second=0, microsecond=0)
+                    if solar.tzinfo else solar)
+    # Usar JD a medianoche solar local (hora solar ya aplicada)
+    local_midnight = solar.replace(hour=0, minute=0, second=0, microsecond=0)
+    jd0 = julian_day(local_midnight)
+    # 1 ene 2000 = 戊午. JD 2451544.5 es 1 ene 2000 00:00 UTC
+    # Calibración empírica sobre ancla 戊午
+    day_num = int(math.floor(jd0 + 0.5))
+    # 2451545 = 1 ene 2000 12:00 TT ≈ día 戊午
+    # 戊=4, 午=6
+    stem = (day_num + 9) % 10  # se ajusta abajo con ancla
+    branch = (day_num + 3) % 12
+    # Recalibrar con offset para que 2000-01-01 dé 戊午
+    # Probamos offsets en runtime via constante medida
+    stem = (day_num - 2451545 + 4) % 10
+    branch = (day_num - 2451545 + 6) % 12
+    return stem, branch
+
+
+def hour_branch(hour: int, minute: int) -> int:
+    # 23:00-00:59 → 子 (0). Cada 2 horas.
+    total = hour + minute / 60.0
+    if total >= 23 or total < 1:
+        return 0
+    return int((total + 1) // 2) % 12
+
+
+def hour_stem(day_stem: int, h_branch: int) -> int:
+    # 五鼠遁
+    bases = {0: 0, 1: 2, 2: 4, 3: 6, 4: 8, 5: 0, 6: 2, 7: 4, 8: 6, 9: 8}
+    return (bases[day_stem] + h_branch) % 10
+
+
+def ten_god(day_stem: int, other_stem: int) -> str:
+    de, oe = STEM_ELEM[day_stem], STEM_ELEM[other_stem]
+    same_pol = (day_stem % 2) == (other_stem % 2)
+    pol = "same" if same_pol else "opp"
+    if oe == de:
+        rel = "same"
+    elif GEN[de] == oe:
+        rel = "prod"
+    elif CTRL[de] == oe:
+        rel = "ctrl"
+    elif GEN[oe] == de:
+        rel = "res"
+    else:
+        rel = "ctrl_me"
+    return GODS[(rel, pol)]
+
+
+def pillar_label(stem: int, branch: int) -> str:
+    return f"{STEMS[stem]}{BRANCHES[branch]}"
+
+
+@dataclass
+class Chart:
+    local: datetime
+    solar: datetime
+    corr_min: float
+    tz: str
+    lon: float
+    sex: str
+    has_hour: bool
+    pillars: dict
+    elements: dict
+    day_master: dict
+    strength: dict
+    luck: list
+    notes: list
+    tiaohou: dict
+
+    def as_dict(self) -> dict:
+        return {
+            "local": self.local.isoformat(),
+            "solar": self.solar.isoformat(),
+            "correccion_min": round(self.corr_min, 1),
+            "tz": self.tz,
+            "lon": self.lon,
+            "sexo": self.sex,
+            "tiene_hora": self.has_hour,
+            "pilares": self.pillars,
+            "elementos": self.elements,
+            "amo_del_dia": self.day_master,
+            "fuerza": self.strength,
+            "grandes_ciclos": self.luck,
+            "tiaohou": self.tiaohou,
+            "notas": self.notes,
+        }
+
+
+def _element_tally(pillars: dict, has_hour: bool) -> dict[str, float]:
+    scores = {e: 0.0 for e in ELEM_ES}
+    keys = ("year", "month", "day") + (("hour",) if has_hour else ())
+    for k in keys:
+        p = pillars[k]
+        scores[STEM_ELEM[p["stem_i"]]] += 1.0
+        for hs, w in HIDDEN[p["branch_i"]]:
+            scores[STEM_ELEM[hs]] += w
+        # Rama del mes pesa más (comando)
+        if k == "month":
+            scores[BRANCH_ELEM[p["branch_i"]]] += 0.6
+    total = sum(scores.values()) or 1.0
+    return {e: round(100.0 * scores[e] / total, 1) for e in ELEM_ES}
+
+
+def _strength(day_stem: int, pillars: dict, has_hour: bool) -> dict:
+    de = STEM_ELEM[day_stem]
+    month_e = BRANCH_ELEM[pillars["month"]["branch_i"]]
+    season = SEASON_POWER[month_e][de]
+    support = 0.0
+    drain = 0.0
+    keys = ("year", "month", "day") + (("hour",) if has_hour else ())
+    for k in keys:
+        p = pillars[k]
+        se = STEM_ELEM[p["stem_i"]]
+        if k != "day":
+            if se == de:
+                support += 1.0
+            elif GEN[se] == de:  # recurso
+                support += 0.8
+            elif GEN[de] == se:  # salida
+                drain += 0.7
+            elif CTRL[de] == se:  # riqueza
+                drain += 0.5
+            else:
