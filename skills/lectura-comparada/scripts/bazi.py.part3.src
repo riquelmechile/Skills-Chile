@@ -1,0 +1,170 @@
+                drain += 0.6  # oficial
+        be = BRANCH_ELEM[p["branch_i"]]
+        weight = 1.2 if k == "month" else 0.7
+        if be == de or GEN[be] == de:
+            support += weight
+        else:
+            drain += weight * 0.5
+    score = season * 40 + support * 12 - drain * 8
+    if score >= 55:
+        label = "fuerte"
+    elif score >= 40:
+        label = "media-fuerte"
+    elif score >= 28:
+        label = "media-débil"
+    else:
+        label = "débil"
+    return {
+        "etiqueta": label,
+        "puntaje_interno": round(score, 1),
+        "temporada": month_e,
+        "factor_estacional": season,
+        "apoyo": round(support, 2),
+        "drenaje": round(drain, 2),
+        "lectura": (
+            f"Amo {STEMS[day_stem]} ({de} {STEM_POL[day_stem % 2]}) en temporada "
+            f"de {month_e}, factor {season}. Apoyo {support:.1f} / drenaje {drain:.1f} → {label}."
+        ),
+    }
+
+
+def _next_term_jd(jd_start: float, forward: bool) -> float:
+    lon0 = solar_longitude(jd_start)
+    target_base = math.floor(lon0 / 30) * 30
+    if forward:
+        target = (target_base + 30) % 360
+    else:
+        target = target_base % 360
+        if abs(((lon0 - target + 180) % 360) - 180) < 0.05:
+            target = (target - 30) % 360
+    # buscar por pasos de 0.25 día
+    step = 0.25 if forward else -0.25
+    jd = jd_start
+    for _ in range(200):
+        jd += step
+        lon = solar_longitude(jd)
+        if forward:
+            if (lon - target) % 360 < 30 and abs(((lon - target + 180) % 360) - 180) < 2:
+                break
+        else:
+            if (target - lon) % 360 < 30 and abs(((lon - target + 180) % 360) - 180) < 2:
+                break
+    # refine
+    for _ in range(20):
+        lon = solar_longitude(jd)
+        err = ((lon - target + 180) % 360) - 180
+        jd -= err / 0.9856
+    return jd
+
+
+def _luck_pillars(solar: datetime, year_stem: int, month_stem_i: int,
+                  month_branch_i: int, sex: str) -> list:
+    yang_year = year_stem % 2 == 0
+    male = sex.upper().startswith("M")
+    forward = (yang_year and male) or (not yang_year and not male)
+    jd_birth = julian_day(solar)
+    jd_term = _next_term_jd(jd_birth, forward)
+    days = abs(jd_term - jd_birth)
+    start_age = max(0.0, days / 3.0)
+    out = []
+    for i in range(8):
+        delta = i + 1
+        if forward:
+            s = (month_stem_i + delta) % 10
+            b = (month_branch_i + delta) % 12
+        else:
+            s = (month_stem_i - delta) % 10
+            b = (month_branch_i - delta) % 12
+        age0 = start_age + i * 10
+        out.append({
+            "orden": i + 1,
+            "pilar": pillar_label(s, b),
+            "tallo": STEMS[s],
+            "rama": BRANCHES[b],
+            "elemento_tallo": STEM_ELEM[s],
+            "edad_inicio": round(age0, 1),
+            "edad_fin": round(age0 + 10, 1),
+            "direccion": "adelante" if forward else "atrás",
+        })
+    return out
+
+
+def _estacion_solar(lon_deg: float) -> str:
+    s = (lon_deg - 315) % 360
+    if s < 90:
+        return "primavera"
+    if s < 180:
+        return "verano"
+    if s < 270:
+        return "otono"
+    return "invierno"
+
+
+def _stems_in_chart(pillars: dict, has_hour: bool) -> set[str]:
+    keys = ("year", "month", "day") + (("hour",) if has_hour else ())
+    seen = set()
+    for k in keys:
+        p = pillars.get(k) if pillars else None
+        if not p:
+            continue
+        seen.add(p["tallo"])
+        for o in p.get("ocultos") or []:
+            seen.add(o["tallo"])
+    return seen
+
+
+def _tiaohou(month_branch: int, elements: dict, lon: float, tz: str,
+             day_stem: int | None = None, pillars: dict | None = None,
+             has_hour: bool = False) -> dict:
+    clima = CLIMA_MES.get(month_branch, "templado")
+    fire = elements.get("Fuego", 0)
+    water = elements.get("Agua", 0)
+    scarce = min(elements, key=elements.get)
+    top = max(elements, key=elements.get)
+    pide = []
+    if clima.startswith("frio") and fire < 15:
+        pide.append("Fuego")
+    if clima.startswith("calido") and water < 15:
+        pide.append("Agua")
+    if clima in ("humedo", "calido-humedo", "frio-humedo"):
+        pide.append("movimiento/seco")
+    if clima == "seco" and water < 18:
+        pide.append("Agua")
+    if not pide:
+        pide.append("sin urgencia de clima")
+
+    # Estación civil ahora. Hemisferio sur (lon oeste típica de Chile/Arg/NZ-ish) invierte el hábito.
+    now = datetime.now(ZoneInfo(tz))
+    slon_now = solar_longitude(julian_day(now))
+    est_norte = _estacion_solar(slon_now)
+    sur = lon < 0 and lon < -20
+    inv = {"primavera": "otono", "verano": "invierno", "otono": "primavera", "invierno": "verano"}
+    est_local = inv[est_norte] if sur else est_norte
+
+    from tiaohou_data import QTBJ, STEMS as TH_STEMS, ZANGFU, SHILIAO, ELEM_ZANG, ELEM_SHILIAO
+
+    row = QTBJ.get((day_stem, month_branch)) if day_stem is not None else None
+    presentes = _stems_in_chart(pillars, has_hour) if pillars else set()
+    yongshen = []
+    faltan = []
+    if row:
+        for s in row["pri"]:
+            item = {"tallo": s, "presente": s in presentes}
+            yongshen.append(item)
+            if s not in presentes:
+                faltan.append(s)
+
+    dm_char = TH_STEMS[day_stem] if day_stem is not None else None
+    zf = ZANGFU.get(dm_char, {}) if dm_char else {}
+    sl = SHILIAO.get(dm_char, {}) if dm_char else {}
+    zf_esc = ELEM_ZANG[scarce]
+    sl_esc = ELEM_SHILIAO[scarce]
+    zf_top = ELEM_ZANG[top]
+    sl_top = ELEM_SHILIAO[top]
+
+    parrafo = (
+        f"Tabla {zh('穷通宝鉴')}: {zh(dm_char or '')} en mes {zh(BRANCHES[month_branch])} ({clima}). "
+        f"Dios útil (用神): {zh_stems(row['pri']) if row else '—'}. "
+        f"{'Nota: ' + row['nota'] if row else ''} "
+        f"En la carta están {zh_stems(x['tallo'] for x in yongshen if x['presente']) or 'ninguno'}. "
+        f"Faltan {zh_stems(faltan) or 'ninguno'}. "
