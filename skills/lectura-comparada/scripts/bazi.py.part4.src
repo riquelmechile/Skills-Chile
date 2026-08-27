@@ -1,0 +1,144 @@
+        f"Amo {zh(dm_char or '')} → {zf.get('fu')}/{zf.get('zang')}. "
+        f"Patrones del tratado: {zh_patrons(zf.get('patrones') or [])}. "
+        f"Enfermedades que nombra la tradición para este tallo: "
+        f"{'; '.join(zf.get('enfermedades_tratado') or [])}. "
+        f"Fase escasa {scarce} {elements[scarce]}% ({zf_esc['zang']}): "
+        f"{'; '.join(zf_esc['enfermedades_tratado'][:3])}. "
+        f"Hierbas del tallo: {zh_herbs(sl.get('hierbas') or [])}. "
+        f"Té: {zh_mix(sl.get('te') or '')}. Alimentos: {zh_mix(', '.join(sl.get('alimentos') or []))}. "
+        f"Evitar: {', '.join(sl.get('evitar') or [])}. "
+        f"Por escasez de {scarce}, la tradición suma {zh_herbs(sl_esc['hierbas'][:3])}. "
+        f"Por saturación de {top}, no insistir en {zh_herbs(sl_top['hierbas'][:2])}. "
+        f"{HABITO_CLIMA[clima]} "
+        f"Estación local ({'sur' if sur else 'norte'} {est_local}): {ESTACION_NEIJING[est_local]} "
+        f"Correspondencia de tratado ({zh('穷通宝鉴')}, {zh('三命通会')}, {zh('食疗')}). "
+        "No es diagnóstico ni receta dosificada. Sintoma real → médico o herbolario titulado."
+    )
+    return {
+        "rama_mes": BRANCHES[month_branch],
+        "clima_mes": clima,
+        "pide": pide,
+        "tabla": "穷通宝鉴",
+        "amo": dm_char,
+        "yongshen": yongshen,
+        "yongshen_nota": row["nota"] if row else "",
+        "yongshen_faltan": faltan,
+        "zangfu": zf,
+        "enfermedades_tallo": zf.get("enfermedades_tratado", []),
+        "enfermedades_escaso": zf_esc["enfermedades_tratado"],
+        "enfermedades_saturado": zf_top["enfermedades_tratado"],
+        "hierbas_tallo": sl.get("hierbas", []),
+        "hierbas_escaso": sl_esc["hierbas"],
+        "alimentos": sl.get("alimentos", []),
+        "te": sl.get("te", ""),
+        "evitar": sl.get("evitar", []),
+        "fuego_pct": fire,
+        "agua_pct": water,
+        "escaso": scarce,
+        "escaso_pct": elements[scarce],
+        "saturado": top,
+        "saturado_pct": elements[top],
+        "habito_clima": HABITO_CLIMA[clima],
+        "habito_escaso": HABITO_ESCASO[scarce],
+        "habito_saturado": HABITO_SATURA[top],
+        "estacion_solar_norte_ahora": est_norte,
+        "estacion_local_ahora": est_local,
+        "hemisferio": "sur" if sur else "norte",
+        "habito_estacion_ahora": ESTACION_NEIJING[est_local],
+        "parrafo": parrafo,
+        "aproximacion": False,
+        "fuente": "穷通宝鉴 × 三命通会 × 食疗. Sin dosis. Sin diagnóstico de consultorio.",
+    }
+
+
+def compute(fecha: str, hora: str | None, sexo: str, tz: str, lon: float,
+            sin_hora: bool = False) -> Chart:
+    notes = []
+    tzinfo = ZoneInfo(tz)
+    if sin_hora or not hora:
+        local = datetime.fromisoformat(fecha).replace(hour=12, minute=0, tzinfo=tzinfo)
+        has_hour = False
+        notes.append("Sin hora de reloj: se trabaja con tres pilares. Pilar horario omitido.")
+    else:
+        local = datetime.fromisoformat(f"{fecha}T{hora}").replace(tzinfo=tzinfo)
+        has_hour = True
+    solar, corr = true_solar_datetime(local, lon)
+    notes.append(
+        f"Hora de reloj {local.strftime('%Y-%m-%d %H:%M')} ({tz}). "
+        f"Hora solar verdadera {solar.strftime('%H:%M')} (corrección {corr:+.1f} min, lon {lon})."
+    )
+    byear, month_br, slon = solar_year_and_month(solar)
+    ys, yb = year_pillar_index(byear)
+    ms = month_stem(ys, month_br)
+    ds, db = day_pillar(solar)
+    pillars = {}
+    for key, s, b in (("year", ys, yb), ("month", ms, month_br), ("day", ds, db)):
+        pillars[key] = {
+            "ganzhi": pillar_label(s, b),
+            "tallo": STEMS[s],
+            "rama": BRANCHES[b],
+            "stem_i": s,
+            "branch_i": b,
+            "elemento_tallo": STEM_ELEM[s],
+            "polaridad": STEM_POL[s % 2],
+            "elemento_rama": BRANCH_ELEM[b],
+            "animal": BRANCH_ANIMAL[b],
+        }
+    if has_hour:
+        hb = hour_branch(solar.hour, solar.minute)
+        hs = hour_stem(ds, hb)
+        pillars["hour"] = {
+            "ganzhi": pillar_label(hs, hb),
+            "tallo": STEMS[hs],
+            "rama": BRANCHES[hb],
+            "stem_i": hs,
+            "branch_i": hb,
+            "elemento_tallo": STEM_ELEM[hs],
+            "polaridad": STEM_POL[hs % 2],
+            "elemento_rama": BRANCH_ELEM[hb],
+            "animal": BRANCH_ANIMAL[hb],
+        }
+        notes.append(
+            f"Rama horaria tomada de la hora solar {solar.strftime('%H:%M')}, no del reloj."
+        )
+    else:
+        pillars["hour"] = None
+
+    for k, p in pillars.items():
+        if not p:
+            continue
+        p["dios_tallo"] = "日主" if k == "day" else ten_god(ds, p["stem_i"])
+        p["dios_tallo_es"] = "Amo del Día" if k == "day" else GOD_ES[p["dios_tallo"]]
+        p["ocultos"] = [
+            {
+                "tallo": STEMS[h],
+                "elemento": STEM_ELEM[h],
+                "dios": ten_god(ds, h),
+                "dios_es": GOD_ES[ten_god(ds, h)],
+                "peso": w,
+            }
+            for h, w in HIDDEN[p["branch_i"]]
+        ]
+
+    elems = _element_tally(pillars, has_hour)
+    dm = {
+        "tallo": STEMS[ds],
+        "elemento": STEM_ELEM[ds],
+        "polaridad": STEM_POL[ds % 2],
+        "ganzhi_dia": pillar_label(ds, db),
+        "longitud_solar_deg": round(slon, 2),
+        "anio_bazi": byear,
+    }
+    strength = _strength(ds, pillars, has_hour)
+    luck = _luck_pillars(solar, ys, ms, month_br, sexo)
+    for lp in luck:
+        lp["dios"] = ten_god(ds, STEMS.index(lp["tallo"]))
+        lp["dios_es"] = GOD_ES[lp["dios"]]
+    notes.append(
+        f"Año BaZi {byear} (立春 cuando la longitud solar pasa 315°; ahora {slon:.1f}°)."
+    )
+    tiaohou = _tiaohou(month_br, elems, lon, tz, ds, pillars, has_hour)
+    return Chart(local, solar, corr, tz, lon, sexo.upper()[0], has_hour,
+                 pillars, elems, dm, strength, luck, notes, tiaohou)
+
+
