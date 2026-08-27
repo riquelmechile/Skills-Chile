@@ -1,0 +1,113 @@
+            "tos crónica de frío o de sequedad",
+            "asma de patrón pulmón en la literatura popular",
+            "voz que se corta",
+            "piel pálida que pica",
+        ],
+    },
+    "壬": {
+        "fu": "vejiga", "zang": "riñón-yang",
+        "tejidos": "hueso, oído, pelo, agua del cuerpo",
+        "emocion": "miedo",
+        "patrones": ["肾阳虚", "水湿泛滥", "膀胱气化不利"],
+        "enfermedades_tratado": [
+            "lumbago frío, rodilla fría",
+            "edema, orina frecuente o trabada",
+            "impotencia / frigidez de patrón yang débil (nombre de tratado)",
+            "vértigo de agua que no baja",
+            "sordera o acúfeno de riñón",
+        ],
+    },
+    "癸": {
+        "fu": "riñón", "zang": "riñón-yin / jing",
+        "tejidos": "médula, oído, reproductor, dientes",
+        "emocion": "miedo fino",
+        "patrones": ["肾阴虚", "精亏", "虚火上炎"],
+        "enfermedades_tratado": [
+            "calor de cinco palmas, sudor nocturno",
+            "infertilidad de patrón jing (nombre de tratado)",
+            "diente flojo, pelo que cae temprano",
+            "tinnitus, memoria que falla",
+            "sequedad interna con calor fantasma",
+        ],
+    },
+}
+
+# 食疗 + hierbas nombradas. Sin gramos de tratamiento.
+SHILIAO = {
+    "甲": {
+        "alimentos": ["verdura de hoja verde", "apio", "brotes", "vinagre en punta", "hígado/vesícula de animal (tradición)"],
+        "hierbas": ["薄荷", "菊花", "柴胡", "决明子", "夏枯草"],
+        "te": "菊花 + 枸杞, corto. No en ayuno largo.",
+        "evitar": ["picante de más", "fritura", "alcohol a diario", "ira de estómago vacío"],
+    },
+    "乙": {
+        "alimentos": ["espinaca", "mora", "sésamo negro", "naba", "huevo"],
+        "hierbas": ["当归", "白芍", "枸杞", "酸枣仁", "玫瑰花"],
+        "te": "玫瑰花 + 枸杞.",
+        "evitar": ["picante seco", "noche en vela", "viento en la nuca"],
+    },
+    "丙": {
+        "alimentos": ["loto", "sandía en mesura", "tomate", "amargo corto (melón amargo)", "pescado blanco"],
+        "hierbas": ["莲子", "竹叶", "麦冬", "丹参", "栀子"],
+        "te": "莲子 + 麦冬.",
+        "evitar": ["picante, alcohol, siesta al sol, pantalla hasta tarde"],
+    },
+    "丁": {
+        "alimentos": ["azufaifo 红枣", "longan", "zanahoria", "corazón de animal (tradición)", "arroz"],
+        "hierbas": ["酸枣仁", "百合", "龙眼肉", "生地", "阿胶"],
+        "te": "酸枣仁 + 百合.",
+        "evitar": ["café de noche", "amargo extremo si ya hay vacío"],
+    },
+    "戊": {
+        "alimentos": ["mijo", "calabaza", "jengibre fresco si el mes es frío", "avena", "carne magra"],
+        "hierbas": ["生姜", "陈皮", "砂仁", "半夏", "黄连"],
+        "te": "陈皮 + 生姜 (mes frío) o 竹叶 (mes caliente).",
+        "evitar": ["hielo, crudo de moda, comer de pie, tumbarse justo después"],
+    },
+    "己": {
+        "alimentos": ["ñame 山药", "mijo", "azufaifo", "calabaza", "lenteja"],
+        "hierbas": ["茯苓", "白术", "山药", "芡实", "薏苡仁"],
+        "te": "山药 + 茯苓 + 芡实 (四神汤 casera, no receta de consulta).",
+        "evitar": ["lácteo frío", "dulce industrial", "preocuparse comiendo"],
+    },
+    "庚": {
+        "alimentos": ["pera", "miel", "rábano blanco", "arroz", "pollo"],
+        "hierbas": ["杏仁", "枇杷叶", "麦冬", "玄参", "火麻仁"],
+        "te": "雪梨 + 麦冬.",
+        "evitar": ["picante, humo, aire acondicionado en la cara"],
+    },
+    "辛": {
+        "alimentos": ["pera", "lirio 百合", "hongo blanco 银耳", "nabo", "clara"],
+        "hierbas": ["百合", "沙参", "玉竹", "桑叶", "桔梗"],
+        "te": "百合 + 银耳.",
+        "evitar": ["humo, sequedad de calefacción, llanto contenido sin aire"],
+    },
+    "壬": {
+        "alimentos": ["poroto negro", "nuez", "cordero en invierno", "hueso largo", "sal en punta"],
+        "hierbas": ["肉桂", "杜仲", "菟丝子", "补骨脂", "艾叶"],
+        "te": "杜仲 + 枸杞 (invierno). No en verano de fuego alto.",
+        "evitar": ["baño helado", "sentarse en frío", "sexo a destajo según el tratado"],
+    },
+    "癸": {
+        "alimentos": ["sésamo negro", "mora", "poroto negro", "huevo", "pera"],
+        "hierbas": ["熟地", "枸杞", "女贞子", "墨旱莲", "龟板"],
+        "te": "枸杞 + 熟地 en decocción corta, no diaria sin criterio.",
+        "evitar": ["picante que sube fuego vacío", "noche en vela", "sal industrial"],
+    },
+}
+
+ELEM_SHILIAO = {
+    "Madera": SHILIAO["乙"],
+    "Fuego": SHILIAO["丁"],
+    "Tierra": SHILIAO["己"],
+    "Metal": SHILIAO["辛"],
+    "Agua": SHILIAO["癸"],
+}
+
+ELEM_ZANG = {
+    "Madera": ZANGFU["乙"],
+    "Fuego": ZANGFU["丁"],
+    "Tierra": ZANGFU["己"],
+    "Metal": ZANGFU["辛"],
+    "Agua": ZANGFU["癸"],
+}
