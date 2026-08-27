@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+"""Tabla fina 穷通宝鉴 (tallo día × rama mes) + mapa 三命通会 / 食疗.
+
+Las asociaciones de enfermedad son las del tratado, no un diagnóstico.
+Las hierbas se nombran; no se dosifican.
+"""
+
+STEMS = list("甲乙丙丁戊己庚辛壬癸")
+
+# rama 寅=2 … 丑=1. Clave: (stem_i, branch_i)
+# pri = 用神 en orden de prioridad (caracteres de tallo)
+QTBJ = {}
+
+
+def _put(stem, months):
+    si = STEMS.index(stem)
+    for br, pri, nota in months:
+        QTBJ[(si, br)] = {"pri": pri, "nota": nota}
+
+
+_put("甲", [
+    (2, ["丙", "癸"], "寅: 丙 principal, 癸 de apoyo. Clima primero."),
+    (3, ["庚", "丙", "丁"], "卯: 庚 para podar. Sin 庚, 丙丁 drenan. No forzar 杀."),
+    (4, ["庚", "丁", "壬"], "辰: 庚 solo si hay 丁. Sin 庚, 壬."),
+    (5, ["癸", "丁", "庚"], "巳: 癸 de clima. 丁庚 de apoyo."),
+    (6, ["癸", "丁", "庚"], "午: madera tostada. 癸 primero; sin 癸, 丁. Madera mucha → 庚."),
+    (7, ["癸", "庚", "丁"], "未: primera quincena 癸; segunda 庚丁."),
+    (8, ["庚", "丁", "壬"], "申: 庚 luego 丁. 伤官 puede tomar 壬."),
+    (9, ["庚", "丁", "丙"], "酉: 庚 principal. 丙丁 de clima."),
+    (10, ["庚", "甲", "丁"], "戌: tierra mucha → 甲; madera mucha → 庚."),
+    (11, ["庚", "丁", "丙"], "亥: 庚丁, 丙 de clima. Madera mucha → 甲."),
+    (0, ["丁", "庚", "丙"], "子: 丁 primero, 庚丙 después. Mejor con 寅巳."),
+    (1, ["丁", "庚", "丙"], "丑: 丁 imprescindible. Mejor si 丁 se apoya en 寅巳."),
+])
+_put("乙", [
+    (2, ["丙", "癸"], "寅: 丙 deshiela. 癸 apenas. Fuego mucho → solo 癸."),
+    (3, ["丙", "癸"], "卯: 丙 drena, 癸 humedece. Oro fuerte estorba."),
+    (4, ["癸", "丙", "戊"], "辰: 癸丙. Agua de ramo → 戊."),
+    (5, ["癸"], "巳: 癸 de clima, urgente."),
+    (6, ["癸", "丙"], "午: primera quincena 癸; segunda 丙癸."),
+    (7, ["癸", "丙"], "未: 癸. Si hay mucho metal-agua, 丙. Evitar 戊己 que enturbian."),
+    (8, ["丙", "癸", "己"], "申: 丙癸. 己 de apoyo si hay 庚."),
+    (9, ["癸", "丙", "丁"], "酉: primera quincena 癸 luego 丙; segunda al revés."),
+    (10, ["癸", "辛"], "戌: 癸 luego 辛."),
+    (11, ["丙", "戊"], "亥: 丙. Agua mucha → 戊."),
+    (0, ["丙"], "子: solo 丙. 癸 estorba."),
+    (1, ["丙"], "丑: valle frío. Solo 丙."),
+])
+_put("丙", [
+    (2, ["壬", "庚"], "寅: 壬 principal, 庚 abre la fuente."),
+    (3, ["壬", "己"], "卯: 壬. Agua mucha → 戊/己."),
+    (4, ["壬", "甲"], "辰: 壬. Tierra gruesa → 甲."),
+    (5, ["壬", "庚", "癸"], "巳: 壬, 庚 de apoyo. Sin 壬, 癸. 戊 enturbia."),
+    (6, ["壬", "庚"], "午: 壬庚. Mejor si 庚 se apoya en 申."),
+    (7, ["壬", "庚"], "未: igual que 午."),
+    (8, ["壬", "戊"], "申: 壬. Tierra mucha → 戊."),
+    (9, ["壬", "癸"], "酉: 壬; sin 壬, 癸."),
+    (10, ["甲", "壬"], "戌: 甲 primero si la tierra espesa, luego 壬."),
+    (11, ["甲", "壬", "戊"], "亥: agua mucha → 甲; fuego alto → 壬."),
+    (0, ["壬", "戊", "己"], "子: 壬. Agua mucha → 戊己."),
+    (1, ["壬", "甲"], "丑: 壬. Tierra mucha → 甲."),
+])
+_put("丁", [
+    (2, ["甲", "庚"], "寅: 甲 con 庚. No 甲 solo."),
+    (3, ["庚", "甲"], "卯: 庚 primero si hay 乙."),
+    (4, ["甲", "庚", "戊"], "辰: madera mucha → 庚; agua mucha → 戊."),
+    (5, ["甲", "庚"], "巳: madera mucha → 庚 primero."),
+    (6, ["壬", "庚", "癸"], "午: 壬庚. Sin 壬, 癸."),
+    (7, ["甲", "壬", "庚"], "未: 甲 no va sin 庚."),
+    (8, ["甲", "庚", "丙"], "申: 甲庚. Si hay 己 en ramo, 己 puede mandar."),
+    (9, ["甲", "庚", "丙"], "酉: 甲庚丙."),
+    (10, ["甲", "庚", "戊"], "戌: igual que 酉."),
+    (11, ["甲", "庚"], "亥: 甲 principal, 庚 apoyo."),
+    (0, ["甲", "庚"], "子: 甲庚."),
+    (1, ["甲", "庚"], "丑: 甲庚."),
+])
+_put("戊", [
+    (2, ["丙", "甲", "癸"], "寅: 丙, 甲, 癸. Los tres."),
+    (3, ["丙", "甲", "癸"], "卯: igual."),
+    (4, ["甲", "丙", "癸"], "辰: tierra de temporada. 甲 primero."),
+    (5, ["甲", "丙", "癸"], "巳: 甲丙癸."),
+    (6, ["壬", "甲", "丙"], "午: 壬 de clima primero."),
+    (7, ["癸", "丙", "甲"], "未: 癸 si no hay 壬 suficiente."),
+    (8, ["丙", "癸", "甲"], "申: 丙 de inicio de otoño."),
+    (9, ["丙", "癸"], "酉: 丙 manda."),
+    (10, ["甲", "丙", "癸"], "戌: si hay juego de metal, 癸 antes que 丙."),
+    (11, ["甲", "丙"], "亥: 甲 y 丙, los dos."),
+    (0, ["丙", "甲"], "子: 丙 primero."),
+    (1, ["丙", "甲"], "丑: 丙甲."),
+])
+_put("己", [
+    (2, ["丙", "庚", "甲"], "寅: 丙庚甲. 壬 con raíz estorba."),
+    (3, ["甲", "癸", "丙"], "卯: 甲癸丙."),
+    (4, ["丙", "癸", "甲"], "辰: tierra mucha → 甲 primero."),
+    (5, ["癸", "丙"], "巳: 癸 de clima."),
+    (6, ["癸", "丙"], "午: 癸丙."),
+    (7, ["癸", "丙"], "未: 癸丙."),
+    (8, ["丙", "癸"], "申: 丙 para cortar el 庚 de temporada."),
+    (9, ["丙", "癸"], "酉: 丙癸."),
+    (10, ["甲", "丙", "癸"], "戌: tierra fuerte → 甲; si no hay juego de tierra, 丙."),
+    (11, ["丙", "甲", "戊"], "亥: 丙 de clima. 壬 fuerte → 戊."),
+    (0, ["丙", "甲", "戊"], "子: 丙甲戊."),
+    (1, ["丙", "甲", "戊"], "丑: 丙甲戊."),
+])
+_put("庚", [
+    (2, ["戊", "甲", "丙"], "寅: 戊甲丙. Fuego de juego → 壬."),
+    (3, ["丁", "甲", "丙"], "卯: 丁. Sin 丁, 丙."),
+    (4, ["甲", "丁", "壬"], "辰: fuego de ramo → 癸; fuego de tallo → 壬."),
+    (5, ["壬", "丁", "丙"], "巳: si hay juego de metal, 丁 manda."),
+    (6, ["壬", "癸"], "午: 壬 urgente. Sin 壬癸, 戊己."),
+    (7, ["丁", "甲"], "未: si hay juego de tierra, 甲 luego 丁."),
+    (8, ["丁", "甲"], "申: 丁. Sin 甲 no usar 乙 de reemplazo."),
+    (9, ["丁", "甲", "丙"], "酉: 丁甲. 丙 mejor en ramo que en tallo."),
